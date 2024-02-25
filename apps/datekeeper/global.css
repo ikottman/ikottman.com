@@ -1,0 +1,7 @@
+html,
+body {
+    height: 100vh;
+    background-color: #33415c;
+}
+
+@font-face { font-family: Vulf-Sans-Light; src: url('fonts/Vulf_Sans-Light.woff'); }

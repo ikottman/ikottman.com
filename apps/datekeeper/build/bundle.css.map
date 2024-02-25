@@ -1,0 +1,14 @@
+{
+  "version": 3,
+  "file": "bundle.css",
+  "sources": [
+    "../../Tailwind.svelte",
+    "../../Button.svelte"
+  ],
+  "sourcesContent": [
+    "<style global>\n@tailwind base;\n@tailwind components;\n@tailwind utilities;\n</style>\n",
+    "<script lang=\"ts\">export let onClick;\n</script>\n\n<style>\nbutton {\n  border-width: 3px;\n  padding: 7px;\n}\n\nbutton:hover {\n  border-width: 5px;\n  padding: 5px;\n}\n</style>\n\n<button class=\"text-gray-100 border-gray-100 mb-2\" on:click={onClick}><slot/></button>\n"
+  ],
+  "names": [],
+  "mappings": "AACA,UAAU,IAAI,CAAC,AACf,UAAU,UAAU,CAAC,AACrB,UAAU,SAAS,CAAC;ACCpB,MAAM,cAAC,CAAC,AACN,YAAY,CAAE,GAAG,CACjB,OAAO,CAAE,GAAG,AACd,CAAC,AAED,oBAAM,MAAM,AAAC,CAAC,AACZ,YAAY,CAAE,GAAG,CACjB,OAAO,CAAE,GAAG,AACd,CAAC"
+}
