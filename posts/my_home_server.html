@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ikottman</title>
+    <link href="/styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <main>
+      <h1>my home server</h1>
+      <hr/>
+
+      <h2>motivation</h2>
+      <p>
+        I wanted an easy and cheap place to deploy side projects, especially ones which require storage. I'm also squeamish about handling authentication/authorization on publicly accessible stuff. With my own server I can deploy small apps for myself and friends without sweating about sudden spikes in cost, or a mis-configuration exposing my friend's emails.
+      </p>
+
+      <h2>overview</h2>
+      <p>
+        Multiple apps, APIs, and databases run with podman-compose on one server. Apps are exposed to a tailscale network via <code>tailscale serve</code>. Access to each app requires being on the tailnet and being granted access in a tailnet ACL policy.
+      </p>
+
+      <h2>hardware</h2>
+      <p>
+        Bought from ebay December 2023 for about $800. I wanted a small form factor with at least 16 GB RAM and a decent CPU.
+      </p>
+      <ul>
+        <li>Lenovo ThinkStation P360 tiny</li>
+        <li>512.1 GB NVMe</li>
+        <li>12th gen Intel Core i7-12700T 1.40 GHz</li>
+        <li>NVIDIA T400</li>
+        <li>16.0 GB RAM</li>
+        <li>Windows 11 (though I replaced this)</li>
+      </ul>
+
+      <h2>software</h2>
+      <ul>
+        <li>debian</li>
+        <li>tailscale</li>
+        <li>tailscale SSH</li>
+        <li>tailscale serve</li>
+        <li>uncomplicated firewall (UFW)</li>
+        <li>podman</li>
+        <li>podman-compose</li>
+      </ul>
+
+      <h2>why debian</h2>
+      <p>
+        I wanted Linux because I'm comfortable using that from work, and it makes using Docker easier. I considered Alpine but decided against it because I've had issues fighting musl in the past for libraries with native extensions. I also considered Ubuntu but am not a fan of snaps.
+      </p>
+
+      <h2>why tailscale</h2>
+      <p>
+        I knew before I even bought the server that I'd be using tailscale. Tailscale is some of the best software I've used, it's made it easy to share my server with friends while not having to make it publicly accessible. Its ACLs also made it easy to control who can see specific apps, so for example my spouse and I have access to a self-hosted financial app, but no one else in my tailnet is. It's also a cheap way to do multi-tenancy, as I can deploy the same app multiple times on different ports, then control who can see each instance.
+      </p>
+
+      <h2>why ufw</h2>
+      <p>
+        I use tailscale to SSH and allow network access to applications, so I don't need anything publicly accessible at all. Tailscale <a href="https://tailscale.com/kb/1077/secure-server-ubuntu-18-04">has documentation</a> on how to use UFW to prevent all external access.
+      </p>
+
+      <h2>why containers and compose</h2>
+      <p>
+        I'm a big fan of Docker and docker-compose. Docker makes things repeatable, so I can still run an app I haven't touched in years. Compose is dead simple to run an API and its frontend, with a volume, and some environment variables (though I wish it used anything other than YAML). I considered some simplified Kubernetes like k3s or minikube, but I don't need auto-scaling or high availability so Kubernetes is overkill. And frankly I don't find Kubernetes particularly fun so I don't want to spend my free time on it.
+      </p>
+
+      <h2>why podman instead of docker</h2>
+      <p>
+        I actually started with vanilla Docker but quickly discovered it is <a href="https://docs.docker.com/network/packet-filtering-firewalls/#docker-and-ufw">incompatible with UFW</a>. Podman has been mostly a drop-in replacement, other than some permission issues with volumes and ports since podman runs rootless.
+      </p>
+
+      <small>
+        <i>last updated 2024-02-24</i>
+      </small>
+    </main>
+  </body>
+</html>
