@@ -1,0 +1,33 @@
+body {
+  display: grid;
+  grid-template-columns: 1fr 600px 1fr;
+  justify-items: center;
+  font-size: 18px;
+}
+
+h1 {
+  justify-items: center;
+  display: grid;
+  font-size: 22px;
+}
+
+main {
+  grid-column-start: 2;
+}
+
+hr {
+  border: none;
+  border-top: 3px double #333;
+  color: #333;
+  overflow: visible;
+  text-align: center;
+  height: 5px;
+}
+
+hr::after {
+  background: #fff;
+  content: '⁂';
+  padding: 0 4px;
+  position: relative;
+  top: -13px;
+}
