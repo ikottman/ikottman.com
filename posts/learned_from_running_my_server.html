@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>ikottman</title>
+    <link href="/styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <main>
+      <h1>what I learned from running my home server</h1>
+      <hr/>
+      <ul>
+        <li>Tailscale SSH lets you SSH to something on your tailnet without having to expose a port</li>
+        <li>Uncomplicated firewall (UFW) is an easy way to control what ports are exposed</li>
+        <li>nmap is an easy way to scan an IP for exposed ports, which I used to check my firewall settings were good</li>
+        <li>Docker updates iptables which can effectively bypass any UFW rules you've set up. I discovered this with nmap. There are <a href="https://docs.docker.com/network/packet-filtering-firewalls/">ways around this</a> if you need to use Docker</li>
+        <li>Podman is a drop-in replacement for Docker which doesn't mess with iptables and brands itself as a faster and more secure alternative to Docker</li>
+        <li>You can have a subdomain point to another domain using a CNAME record. For example, I have an app in fly at the domain canary.fly.dev. I can expose that at canary.ikottman.com by creating a CNAME record "canary.fly.dev." (note the trailing period)</li>
+        <li>A CNAME record can only point to another domain name. It cannot point to an IP address</li>
+        <li>I could use an A record to point a subdomain to a tailnet IP address, but I would need to create a valid SSL certificate for it, or get all my friends to accept a self-signed certificate</li>
+        <li>Tailscale Funnel publicly exposes an app, but I can't have that app at a subdomain of my website, because "Unfortunately, custom domains are not supported at this time by Funnel, but it may be considered in the future"</li>
+        <li>Traefik was pretty easy to run with podman-compose, but in the end I didn't use it. I tried path based routing so tailscale-host.com/foo would go to my foo pod, but then the foo pod has to handle traffic at /foo instead of just /. I wanted to deploy the same app publicly at a subdomain, and didn't want to bother with flexing its base path</li>
+        <li>Traefik also made it easy to use subdomains locally, so foo.tailscale-host.com goes to foo pod, but that didn't work with tailscale serve because it doesn't support subdomains either (just like funnel)</li>
+        <li>When running pods with <code>podman-compose up -d</code> I have to "enable linger" so processes I start aren't killed by systemd when my SSH session ends. This command enables linger: <code>sudo loginctl enable-linger</code></li>
+      </ul>
+      <small>
+        <i>last updated 2024-02-25</i>
+      </small>
+    </main>
+  </body>
+</html>
